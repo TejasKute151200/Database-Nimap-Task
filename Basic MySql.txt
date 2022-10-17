@@ -1,0 +1,87 @@
+
+select clause:
+1.SELECT * FROM employee;
+
+2.SELECT name FROM customers;
+mysql> select first_name from customers;
++------------+
+| first_name |
++------------+
+| TejaS      |
+| Ines       |
+| Ajay       |
+| Ambur      |
+| Vijaya     |
+| Elka       |
+| Vijay      |
+| Thacher    |
+| Hello      |
+| Levy       |
++------------+
+10 rows in set (0.00 sec)
+3.SELECT unit price FROM customers;
+mysql> select points from customers;
++--------+
+| points |
++--------+
+|   2273 |
+|    947 |
+|   2967 |
+|    457 |
+|   3675 |
+|   3073 |
+|   1672 |
+|    205 |
+|   1486 |
+|    796 |
++--------+
+10 rows in set (0.00 sec)
+
+4.SELECT unit price*1.1 AS new_price FROM employee
+mysql> select points *1.1 AS new_points from customers;
++------------+
+| new_points |
++------------+
+|     2500.3 |
+|     1041.7 |
+|     3263.7 |
+|      502.7 |
+|     4042.5 |
+|     3380.3 |
+|     1839.2 |
+|      225.5 |
+|     1634.6 |
+|      875.6 |
++------------+
+10 rows in set (0.00 sec)
+
+
+Where clause:
+
+1.order place on spcfc year
+mysql> select order_id from orders where order_date >='2018-11-18';
++----------+
+| order_id |
++----------+
+|        1 |
+|        6 |
++----------+
+2 rows in set (0.00 sec)
+
+2.mysql> select first_name from employees where salary>=86119;
++------------+
+| first_name |
++------------+
+| Sayer      |
+| Mindy      |
+| Keriann    |
+| North      |
+| Elladine   |
+| Guthrey    |
+| Kass       |
+| Mirilla    |
+| Hazel      |
+| Cole       |
+| Ivy        |
++------------+
+11 rows in set (0.00 sec)
