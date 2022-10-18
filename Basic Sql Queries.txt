@@ -1,0 +1,456 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| learn              |
+| mysql              |
+| nttsactivity       |
+| performance_schema |
+| sakila             |
+| sql_hr             |
+| sql_inventory      |
+| sql_invoicing      |
+| sql_store          |
+| sys                |
+| world              |
++--------------------+
+12 rows in set (0.00 sec)
+
+mysql> use learn;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> create table my_table( id int(10) primary key , name varchar(40) not null, city varchar(30));
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> desc my_table;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(40) | NO   |     | NULL    |       |
+| city  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table my_table rename to student;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(40) | NO   |     | NULL    |       |
+| city  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into table student(id, name, city) values(1,'Tejas','Mumbai'),(2,'Ranjit','Mumbai'),(3,'Sanjay','Sangli'),(4,'Savitra','Solapur'),(5,'Ranjit','Satara'),(6,'Rupesh','Kohlapur');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table student(id, name, city) values(1,'Tejas','Mumbai'),(2,'Ranjit','Mumbai'),(' at line 1
+mysql> insert into student(id, name, city) values(1,'Tejas','Mumbai'),(2,'Ranjit','Mumbai'),(3,'Sanjay','Sangli'),(4,'Savitra','Solapur'),(5,'Ranjit','Satara'),(6,'Rupesh','Kohlapur');
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> alter table student add class;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> alter table student add class int;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |  NULL |
+|  2 | Ranjit  | Mumbai   |  NULL |
+|  3 | Sanjay  | Sangli   |  NULL |
+|  4 | Savitra | Solapur  |  NULL |
+|  5 | Ranjit  | Satara   |  NULL |
+|  6 | Rupesh  | Kohlapur |  NULL |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> update student set class = 14 where id;
+Query OK, 6 rows affected (0.00 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    14 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    14 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    14 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> update student set class = 15 where id = 2 OR id = 4 OR id = 6;
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where class = 15;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  2 | Ranjit  | Mumbai   |    15 |
+|  4 | Savitra | Solapur  |    15 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where class = 14;
++----+--------+--------+-------+
+| id | name   | city   | class |
++----+--------+--------+-------+
+|  1 | Tejas  | Mumbai |    14 |
+|  3 | Sanjay | Sangli |    14 |
+|  5 | Ranjit | Satara |    14 |
++----+--------+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> delete from student where id = 1;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student ;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into student(id, name, city, class) values ( 1, 'Tejas', 'Mumbai',14);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student ;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select name, city, class from student;
++---------+----------+-------+
+| name    | city     | class |
++---------+----------+-------+
+| Tejas   | Mumbai   |    14 |
+| Ranjit  | Mumbai   |    15 |
+| Sanjay  | Sangli   |    14 |
+| Savitra | Solapur  |    15 |
+| Ranjit  | Satara   |    14 |
+| Rupesh  | Kohlapur |    15 |
++---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select name, city, class from student where city = 'Mumbai';
++--------+--------+-------+
+| name   | city   | class |
++--------+--------+-------+
+| Tejas  | Mumbai |    14 |
+| Ranjit | Mumbai |    15 |
++--------+--------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select name as "NAME", city as "CITY" from student;
++---------+----------+
+| NAME    | CITY     |
++---------+----------+
+| Tejas   | Mumbai   |
+| Ranjit  | Mumbai   |
+| Sanjay  | Sangli   |
+| Savitra | Solapur  |
+| Ranjit  | Satara   |
+| Rupesh  | Kohlapur |
++---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select distinct (name) from Student;
++---------+
+| name    |
++---------+
+| Tejas   |
+| Ranjit  |
+| Sanjay  |
+| Savitra |
+| Rupesh  |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct (city) from Student;
++----------+
+| city     |
++----------+
+| Mumbai   |
+| Sangli   |
+| Solapur  |
+| Satara   |
+| Kohlapur |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where distinct(name) from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct(name) from student' at line 1
+mysql> select distinct() from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') from student' at line 1
+mysql> select distinct from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from student' at line 1
+mysql> select * from student where city = 'Mumbai' AND class =15;
++----+--------+--------+-------+
+| id | name   | city   | class |
++----+--------+--------+-------+
+|  2 | Ranjit | Mumbai |    15 |
++----+--------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from student where city = 'Mumbai' AND class = 15;
++----+--------+--------+-------+
+| id | name   | city   | class |
++----+--------+--------+-------+
+|  2 | Ranjit | Mumbai |    15 |
++----+--------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from student where city = 'Mumbai' OR class = 15;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  4 | Savitra | Solapur  |    15 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student where NOT city = 'Mumbai';
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student where id >= 2 AND id <= 4;
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  2 | Ranjit  | Mumbai  |    15 |
+|  3 | Sanjay  | Sangli  |    14 |
+|  4 | Savitra | Solapur |    15 |
++----+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where id between 2 AND 4;
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  2 | Ranjit  | Mumbai  |    15 |
+|  3 | Sanjay  | Sangli  |    14 |
+|  4 | Savitra | Solapur |    15 |
++----+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where id > 2 AND id < 4;
++----+--------+--------+-------+
+| id | name   | city   | class |
++----+--------+--------+-------+
+|  3 | Sanjay | Sangli |    14 |
++----+--------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from student where id in(2,4,6);
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  2 | Ranjit  | Mumbai   |    15 |
+|  4 | Savitra | Solapur  |    15 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where id limit 3;
++----+--------+--------+-------+
+| id | name   | city   | class |
++----+--------+--------+-------+
+|  1 | Tejas  | Mumbai |    14 |
+|  2 | Ranjit | Mumbai |    15 |
+|  3 | Sanjay | Sangli |    14 |
++----+--------+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where id offset 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'offset 3' at line 1
+mysql> select * from student where offset 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '3' at line 1
+mysql> select * from student where limit 2 offset 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limit 2 offset 3' at line 1
+mysql> select * from student where limit 2 offset 2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limit 2 offset 2' at line 1
+mysql> select * from student limit 2 offset 2;
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  3 | Sanjay  | Sangli  |    14 |
+|  4 | Savitra | Solapur |    15 |
++----+---------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student offset 2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2' at line 1
+mysql> select * from student limit 3;
++----+--------+--------+-------+
+| id | name   | city   | class |
++----+--------+--------+-------+
+|  1 | Tejas  | Mumbai |    14 |
+|  2 | Ranjit | Mumbai |    15 |
+|  3 | Sanjay | Sangli |    14 |
++----+--------+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where order by id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by id' at line 1
+mysql> select * from student order by id;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by id desc;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  6 | Rupesh  | Kohlapur |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  1 | Tejas   | Mumbai   |    14 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by id asc;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by name;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  2 | Ranjit  | Mumbai   |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  1 | Tejas   | Mumbai   |    14 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by name asc;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  2 | Ranjit  | Mumbai   |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  1 | Tejas   | Mumbai   |    14 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by name desc;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  5 | Ranjit  | Satara   |    14 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by name desc limit 2;
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  1 | Tejas   | Mumbai  |    14 |
+|  4 | Savitra | Solapur |    15 |
++----+---------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql>
