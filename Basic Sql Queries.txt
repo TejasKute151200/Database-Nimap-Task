@@ -453,4 +453,270 @@ mysql> select * from student order by name desc limit 2;
 +----+---------+---------+-------+
 2 rows in set (0.00 sec)
 
+mysql> update student set name = 'Yogesh' OR city = 'Solapur' where id = 5;
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: 'Yogesh'
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Ranjit  | Satara   |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> update student set name = 'Yogesh' where id = 5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set city = 'Solapur' where id = 5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Yogesh  | Solapur  |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where name like'_a%';
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  2 | Ranjit  | Mumbai  |    15 |
+|  3 | Sanjay  | Sangli  |    14 |
+|  4 | Savitra | Solapur |    15 |
++----+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where name like's%';
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  3 | Sanjay  | Sangli  |    14 |
+|  4 | Savitra | Solapur |    15 |
++----+---------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student where name like'';
+Empty set (0.00 sec)
+
+mysql> select * from student where name like'%r';
+Empty set (0.00 sec)
+
+mysql> select * from student where city like'%r';
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Yogesh  | Solapur  |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where city like'%l____';
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Yogesh  | Solapur  |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where city like'__l%';
++----+---------+---------+-------+
+| id | name    | city    | class |
++----+---------+---------+-------+
+|  4 | Savitra | Solapur |    15 |
+|  5 | Yogesh  | Solapur |    14 |
++----+---------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select SUM(id) as SUM from student;
++------+
+| SUM  |
++------+
+|   21 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select AVG(id) as AVG from student;
++--------+
+| AVG    |
++--------+
+| 3.5000 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(id) as COUNT from student;
++-------+
+| COUNT |
++-------+
+|     6 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT as COUNT from student;
+ERROR 1054 (42S22): Unknown column 'COUNT' in 'field list'
+mysql> select COUNT(class) as COUNT from student limit 4;
++-------+
+| COUNT |
++-------+
+|     6 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(class) as COUNT from student where limit 4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limit 4' at line 1
+mysql> select COUNT(class) as COUNT from student;
++-------+
+| COUNT |
++-------+
+|     6 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select MIN(id) as Min from student;
++------+
+| Min  |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select MAX(id) as Max from student;
++------+
+| Max  |
++------+
+|    6 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from student where id = ( select MAX(id) from student where name));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select * from student where id = ( select MAX(id) from student where name);
+Empty set, 6 warnings (0.00 sec)
+
+mysql> select * from student where id = ( select MAX(id) from student);
++----+--------+----------+-------+
+| id | name   | city     | class |
++----+--------+----------+-------+
+|  6 | Rupesh | Kohlapur |    15 |
++----+--------+----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select city from student where id = ( select MAX(id) from student);
++----------+
+| city     |
++----------+
+| Kohlapur |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select name from student s where s.id=?1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?1' at line 1
+mysql> select name from student s where s.id=1;
++-------+
+| name  |
++-------+
+| Tejas |
++-------+
+1 row in set (0.00 sec)
+
+mysql> create table laptop(laptop
+    -> create table laptop(laptophq     io
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table laptop(laptophq     io' at line 2
+mysql> create table laptop(laptopId int primary key,model varchar(50),studentId int foreign key references student(id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key references student(id)' at line 1
+mysql> create table laptop(laptopId int primary key,model varchar(50),studentId int foreign key references student(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key references student(id))' at line 1
+mysql> create table laptop(laptopId int primary key,model varchar(50),studentId int, foreign key (studentId) references student(id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc laptop;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| laptopId  | int         | NO   | PRI | NULL    |       |
+| model     | varchar(50) | YES  |     | NULL    |       |
+| studentId | int         | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into laptop(laptopId,model,studentId) values (234,'Dell',3),(345,'Msi',5),(456,'Acer',1),(567,'Apple',2),(654,'Lenevo',4),(921,'Hp',6);
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++----+---------+----------+-------+
+| id | name    | city     | class |
++----+---------+----------+-------+
+|  1 | Tejas   | Mumbai   |    14 |
+|  2 | Ranjit  | Mumbai   |    15 |
+|  3 | Sanjay  | Sangli   |    14 |
+|  4 | Savitra | Solapur  |    15 |
+|  5 | Yogesh  | Solapur  |    14 |
+|  6 | Rupesh  | Kohlapur |    15 |
++----+---------+----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from laptop;
++----------+--------+-----------+
+| laptopId | model  | studentId |
++----------+--------+-----------+
+|      234 | Dell   |         3 |
+|      345 | Msi    |         5 |
+|      456 | Acer   |         1 |
+|      567 | Apple  |         2 |
+|      654 | Lenevo |         4 |
+|      921 | Hp     |         6 |
++----------+--------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select student.name, laptop.laptopId, laptop.model from student, laptop where student.id = laptop.studentId;
++---------+----------+--------+
+| name    | laptopId | model  |
++---------+----------+--------+
+| Tejas   |      456 | Acer   |
+| Ranjit  |      567 | Apple  |
+| Sanjay  |      234 | Dell   |
+| Savitra |      654 | Lenevo |
+| Yogesh  |      345 | Msi    |
+| Rupesh  |      921 | Hp     |
++---------+----------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select student.name, laptop.laptopId, laptop.model from student, laptop where student.id = laptop.studentId and laptop.model = 'Apple';
++--------+----------+-------+
+| name   | laptopId | model |
++--------+----------+-------+
+| Ranjit |      567 | Apple |
++--------+----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select student.name, laptop.laptopId, laptop.model from student inner join laptop on student.id = laptop.studentId;
++---------+----------+--------+
+| name    | laptopId | model  |
++---------+----------+--------+
+| Tejas   |      456 | Acer   |
+| Ranjit  |      567 | Apple  |
+| Sanjay  |      234 | Dell   |
+| Savitra |      654 | Lenevo |
+| Yogesh  |      345 | Msi    |
+| Rupesh  |      921 | Hp     |
++---------+----------+--------+
+6 rows in set (0.00 sec)
+
 mysql>
